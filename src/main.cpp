@@ -14,11 +14,13 @@
 bool lightAutomation = true;
 bool ledOutVal = false;
 bool ledInVal = false;
+bool isLocked = true;
 
 float temperatureValue = 0.0;
 float humidityValue = 0.0;
-int gasValue = 0;
-int pos = 0;
+bool gasValue = false;
+bool isNIGHT = false;
+// int pos = 0;
 
 Servo myservo;
 DHT dht(pinDHT, DHTTYPE);
@@ -27,12 +29,14 @@ void openDoor()
 {
   myservo.write(180);
   Serial.println("Open door.");
+  isLocked = false;
 }
 
 void closeDoor()
 {
   myservo.write(0);
   Serial.println("Clsoe door.");
+  isLocked = true;
 }
 
 int readGasSensor()
@@ -104,7 +108,7 @@ void LEDup()
 {
   if (lightAutomation) // Light Automation ON
   {
-    int isNIGHT = digitalRead(pinLUMEN);
+    isNIGHT = digitalRead(pinLUMEN);
 
     if (isNIGHT)
     {
